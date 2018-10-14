@@ -1,26 +1,32 @@
+const path = require("path")
+const webpack = require("webpack")
+
 module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './src/index.js'
-  ],
-  module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'react-hot-loader!babel-loader'
-    }]
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
-  },
+  devtool: "eval",
+  entry: ["./src"],
   output: {
-    path: __dirname + '/dist',
-    publicPath: '/',
-    filename: 'bundle.js'
+    path: path.join(__dirname, "dist"),
+    filename: "build.js", // The final file will be created in dist/build.js
+    publicPath: "/dist/",
+  },
+  plugins: [new webpack.HotModuleReplacementPlugin()],
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: ["babel-loader"],
+        include: path.join(__dirname, "src"),
+      },
+      {
+        test: /\.json$/, // To load the json files
+        loader: "json-loader",
+      },
+    ],
   },
   devServer: {
-    contentBase: './dist',
-    hot: true
-  }
-};
+    historyApiFallback: true,
+  },
+}
