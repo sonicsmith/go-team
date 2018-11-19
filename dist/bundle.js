@@ -24040,9 +24040,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var goRhymes = ["Bio", "Blow", "Bo", "Bow", "Bro", "Bros", "Crow", "Crowe", "Doh", "Dough", "Faux", "Flow", "Foe", "Glow", "Grow", "Hoe", "Jo", "Joe", "Know", "Low", "Moe", "Mow", "No", "Oh", "Pro", "Row", "Schmoe", "Sew", "Show", "Slow", "Snow", "So", "Sow", "Stow", "Though", "Throw", "Toe", "Tow", "Whoa", "Woe", "Yo"];
+var goRhymes = ["Bio", "Blow", "Bo", "Bow", "Bro", "Bros", "Crow", "Crowe", "Doh", "Dough", "Faux", "Flow", "Foe", "Glow",, "Go", "Grow", "Hoe", "Jo", "Joe", "Know", "Low", "Moe", "Mow", "No", "Oh", "Pro", "Row", "Schmoe", "Sew", "Show", "Slow", "Snow", "So", "Sow", "Stow", "Though", "Throw", "Toe", "Tow", "Whoa", "Woe", "Yo"];
 
-var teamRhymes = ["Beam", "Bream", "Cream", "Creme", "Dream", "Gleam", "Ream", "Scheme", "Scream", "Seam", "Seem", "Steam", "Stream", "Theme"];
+var teamRhymes = ["Beam", "Bream", "Cream", "Creme", "Dream", "Gleam", "Ream", "Scheme", "Scream", "Seam", "Seem", "Steam", "Stream", "Team", "Theme"];
+
+var wholeRhymes = ["Agleam", "Airstream", "Beseem", "Blaspheme", "Bloodstream", "Crossbeam", "Daydream", "Downstream", "Esteem", "Extreme", "Inseam", "Mainstream", "Midstream", "Millstream", "Moonbeam", "Pipedream", "Racemeredeem", "Regime", "Sunbeam", "Supreme", "Upstream"];
+
+var getRandom = function getRandom(list) {
+  var rndIndex = Math.floor(Math.random() * (list.length - 1));
+  return list[rndIndex];
+};
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -24061,9 +24068,14 @@ var App = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var goRnd = Math.floor(Math.random() * (goRhymes.length - 1));
-      var teamRnd = Math.floor(Math.random() * (teamRhymes.length - 1));
-      var phrase = goRnd === -1 && "" || goRhymes[goRnd] + ' ' + teamRhymes[teamRnd];
+      var phrase = "";
+      var percentageWholeRhymes = wholeRhymes.length / (goRhymes.length + teamRhymes.length);
+      if (Math.random() > percentageWholeRhymes) {
+        phrase = getRandom(goRhymes) + ' ' + getRandom(teamRhymes);
+      } else {
+        phrase = getRandom(wholeRhymes);
+      }
+
       if (!this.state.show) return _react2.default.createElement(
         'button',
         { onClick: function onClick() {
